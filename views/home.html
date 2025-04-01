@@ -1,11 +1,69 @@
-<!-- 🏗 Structo the Builder -->
-<!-- Utwórz podstawową strukturę dokumentu HTML dla strony głównej. -->
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- 🏗 Structo the Builder -->
-<!-- Ustaw tytuł strony na "Shop - Home" -->
- 
-<!-- 🏗 Structo the Builder -->
-<!-- Główny nagłówek strony. -->
+<head>
+    <meta charset="UTF-8">
+    <title>Shop - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- 🏗 Structo the Builder -->
-<!-- Dodaj nawigację z linkami do różnych sekcji sklepu. -->
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            padding: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Welcome to Our Shop</h1>
+    </header>
+
+    <nav>
+        <a href="/product/add">Add product</a>
+        <a href="/product/new">Newest product</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+    <main>
+        <p>Explore our latest products and great deals!</p>
+    </main>
+
+</body>
+
+</html>

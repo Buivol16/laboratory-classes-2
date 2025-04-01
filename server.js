@@ -1,40 +1,55 @@
-/*
-  📦 Dependy the Importer  
-  Zaimportuj wszystkie wymagane moduły: path, express, body-parser, logger oraz routing.  
-*/
-const http = require("http");
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const { getErrorLog, getInfoLog } = require('./utils/logger');
 const config = require("./config");
-const { requestRouting } = require("./routing/routing");
+const { STATUS_CODE } = require("./constants/statusCode");
+const { homeRouting } = require("./routing/home");
+const { renderAddProductPage, addNewProduct, renderNewProductPage } = require("./routing/product");
+const { logoutRouting } = require("./routing/logout");
+const killRouting = require("./routing/kill");
 
-const requestListener = (request, response) => {
-  requestRouting(request, response);
-};
+const app = express();
 
-const server = http.createServer(requestListener);
+app.listen(config.PORT, () => {
+  
+});
 
-server.listen(config.PORT);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+  const { url, method } = req;
+  getInfoLog(
+    `INFO (${new Date(Date.now()).toUTCString()}): ${method} - ${url}`
+  );
+  next();
+});
 
-/*
-  🏗 Structo the Builder  
-  Utwórz instancję aplikacji express i zapisz ją w stałej app.  
-*/
-/*
-  🏗 Structo the Builder  
-  Zarejestruj middleware body-parser do parsowania ciał formularzy. 
-*/
-/*
-  🏗 Structo the Builder  
-  Dodaj middleware logujący informacje o każdym przychodzącym żądaniu.  
-*/
-/*
-  🏗 Structo the Builder  
-  Zarejestruj middleware obsługujące poszczególne ścieżki.  
-*/
-/*
-  🏗 Structo the Builder  
-    Obsłuż stronę 404 – zwróć plik 404.html i zaloguj błąd.   
-*/
-/*
-  🏗 Structo the Builder  
-    Uruchom serwer i nasłuchuj na porcie z config.js.    
-*/
+app.get('/product/get', (req, res) => {
+  return renderAddProductPage(res);
+})
+
+app.post("/product/add", (req, res) => {
+    return addNewProduct(req, res);
+})
+
+app.get('/product/new', (req, res) => {
+  return renderNewProductPage(res);
+})
+
+app.use('/logout', (req, res) => {
+  return logoutRouting(res);
+});
+
+app.use('/kill', (req, res) => {
+  killRouting(res);
+});
+
+app.get('/', (req, res) => {
+  return homeRouting(res);
+});
+
+app.use((req, res, next) => {
+  getErrorLog('404 - ROUTE NOT FOUND');
+  res.status(STATUS_CODE.NOT_FOUND).sendFile(path.join(__dirname, 'views', '404.html'));
+});
